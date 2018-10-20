@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer-array name="selectors_id_array">
+        <item>1</item>
+        <item>2</item>
+    </integer-array>
+    
+    <string-array name="users_array">
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
+    <string-array name="selectors_array">
+        <item>Последнее</item>
+        <item>За день</item>
+    </string-array>
+</resources>
