@@ -1,0 +1,2 @@
+# LocationS
+Location search app
