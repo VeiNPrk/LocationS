@@ -1,6 +1,7 @@
 package com.example.vnprk.locationsearch;
 
 import android.Manifest;
+import android.app.DialogFragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -37,7 +38,8 @@ import java.util.Map;
  * Created by VNPrk on 20.10.2018.
  */
 
-public class DescribeActivity extends AppCompatActivity implements ActionMode.Callback, LoaderManager.LoaderCallbacks<Cursor> {
+public class DescribeActivity extends AppCompatActivity implements ActionMode.Callback, LoaderManager.LoaderCallbacks<Cursor>,
+        DescribeDialogFragment.DescribeDialogListener{
     List<String> elements;
     List<Integer> selectedPositions;
     List<UserClass> users;
@@ -47,6 +49,7 @@ public class DescribeActivity extends AppCompatActivity implements ActionMode.Ca
     RecyclerView rvUsers;
     ActionMode actionMode;
     FloatingActionButton fabAddUser;
+    DescribeDialogFragment dialog;
     int nowPositionList = -1;
     int countChecked = 0;
 
@@ -93,6 +96,7 @@ public class DescribeActivity extends AppCompatActivity implements ActionMode.Ca
     }*/
 
     private void initViews(){
+        dialog = new DescribeDialogFragment();
         rvUsers = (RecyclerView)findViewById(R.id.rv_users);
         fabAddUser = (FloatingActionButton)findViewById(R.id.fab_add);
     }
@@ -186,6 +190,7 @@ public class DescribeActivity extends AppCompatActivity implements ActionMode.Ca
     }
 
     private void addElementView(){
+        dialog.show(getFragmentManager(), "DescribeDialog");
         //if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
         /*Intent intent = new Intent(MainActivity.this, NoteActivity.class);
         intent.putExtra(NoteActivity.KEY_CODE, requestCodeAdd);
@@ -272,6 +277,16 @@ public class DescribeActivity extends AppCompatActivity implements ActionMode.Ca
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
+
+    }
+
+    @Override
+    public void onYesClicked(DialogFragment dialog, String dataDescribe) {
+        Toast.makeText(this, dataDescribe, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onNoClicked(DialogFragment dialog) {
 
     }
 }
