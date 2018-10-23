@@ -67,7 +67,6 @@ public class UserLoader extends AsyncTaskLoader<Cursor> {
         List<UserClass> users = new ArrayList<>();
         Cursor usersCursor = null;
         try {
-            //Log.d("", App.getApi().getAcceptedUser(App.iam.getId()).execute().body().toString());
             users.addAll(App.getApi().getUsers(App.iam.getId()).execute().body());
         }
         catch (Exception ex)

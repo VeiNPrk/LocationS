@@ -52,6 +52,7 @@ public class DescribeActivity extends AppCompatActivity implements ActionMode.Ca
     DescribeDialogFragment dialog;
     int nowPositionList = -1;
     int countChecked = 0;
+    //int idDescribe = 0;
 
     public static void openActivity(Context context){
         Intent intent = new Intent(context, DescribeActivity.class);
@@ -258,6 +259,8 @@ public class DescribeActivity extends AppCompatActivity implements ActionMode.Ca
         switch (id) {
             case MapActivity.LOADER_USERS:
                 return new UserLoader(this);
+            case DescribeLoader.NEW_DESCRIBE:
+                return new DescribeLoader(this, args);
             default:
                 return null;
         }
@@ -272,6 +275,13 @@ public class DescribeActivity extends AppCompatActivity implements ActionMode.Ca
             }
             setRecyclerView();
         }
+        if (id == DescribeLoader.NEW_DESCRIBE) {
+            if (data != null) {
+                users = DataBase.getAllUsers();
+                adapter.setData(users);
+            }
+
+        }
         getLoaderManager().destroyLoader(id);
     }
 
@@ -283,6 +293,14 @@ public class DescribeActivity extends AppCompatActivity implements ActionMode.Ca
     @Override
     public void onYesClicked(DialogFragment dialog, String dataDescribe) {
         Toast.makeText(this, dataDescribe, Toast.LENGTH_LONG).show();
+        int idDescribe = Integer.valueOf(dataDescribe);
+        if(idDescribe>0) {
+            Bundle bundle = new Bundle();
+            bundle.putInt(DescribeLoader.IDDEPEND_KEY, idDescribe);
+            bundle.putInt(DescribeLoader.STATUS_KEY, 0);
+            bundle.putInt(DescribeLoader.OPERATION_KEY, DescribeLoader.NEW_DESCRIBE);
+            getSupportLoaderManager().initLoader(DescribeLoader.NEW_DESCRIBE, bundle, this);
+        }
     }
 
     @Override

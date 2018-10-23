@@ -27,4 +27,13 @@ public interface LocationApi {
         @POST("/setlocation.php")
         Call<ResponseResult> setLocation(@Field("user") int idUser, @Field("latitude") double latitude,
                                          @Field("longitude") double longitude, @Field("date") long dateTime);
+
+        @FormUrlEncoded
+        @POST("/setdescribe.php")
+        Call<List<UserClass>> setDescribe(@Field("id_main") int idUser, @Field("id_depend") int idDepend);
+
+        @FormUrlEncoded
+        @POST("/updatedescribe.php")
+        Call<List<UserClass>> updateDescribe(@Field("id_main") int idUser, @Field("id_depend") int idDepend,
+                                         @Field("status") int status);
 }

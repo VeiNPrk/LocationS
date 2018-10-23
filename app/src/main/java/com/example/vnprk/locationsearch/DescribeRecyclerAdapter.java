@@ -64,8 +64,8 @@ public class DescribeRecyclerAdapter extends RecyclerView.Adapter<DescribeRecycl
         notifyDataSetChanged();
     }
 
-    public void setData(List<UserClass> notes){
-        data=notes;
+    public void setData(List<UserClass> users){
+        data=users;
         notifyDataSetChanged();
     }
 /*
