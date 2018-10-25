@@ -20,6 +20,8 @@ android {
 }
 def dbflow_version = "4.2.4"
 dependencies {
+    implementation 'com.google.firebase:firebase-core:16.0.0'
+    implementation 'com.google.firebase:firebase-messaging:17.3.4'
     annotationProcessor "com.github.Raizlabs.DBFlow:dbflow-processor:${dbflow_version}"
     compile "com.github.Raizlabs.DBFlow:dbflow-core:${dbflow_version}"
     compile "com.github.Raizlabs.DBFlow:dbflow:${dbflow_version}"
@@ -35,8 +37,10 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
-    compile 'com.google.android.gms:play-services-maps:10.2.0'
+    compile 'com.google.android.gms:play-services-maps:16.0.0'
     compile 'com.firebase:firebase-jobdispatcher:0.5.0'
     compile 'com.android.support:design:26.+'
     implementation files('libs/jtds-1.2.5.jar')
 }
+
+apply plugin: 'com.google.gms.google-services'

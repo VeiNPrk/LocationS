@@ -9,6 +9,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Build;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.LoaderManager;
@@ -32,6 +33,10 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 import com.raizlabs.android.dbflow.sql.language.Select;
 
 import java.sql.ResultSet;
@@ -50,7 +55,8 @@ public class MainActivity extends AppCompatActivity {
 	TextView tvMyId = null;
 	Button btnMap = null;
     Button btnDescribe = null;
-
+    Button logTokenButton = null;
+    private static final String TAG = "MainActivity";
     final private int REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS = 124;
 
     @Override
@@ -74,6 +80,8 @@ public class MainActivity extends AppCompatActivity {
         btnMap = (Button) findViewById(R.id.btn_map);
         btnDescribe = (Button) findViewById(R.id.btn_describe);
         tvMyId = (TextView) findViewById(R.id.tv_my_id);
+        logTokenButton = findViewById(R.id.logTokenButton);
+
     }
 
     private void setClickListener() {
@@ -87,6 +95,45 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 openDescribe();
+            }
+        });
+        logTokenButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Get token
+                FirebaseInstanceId.getInstance().getInstanceId()
+                        .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<InstanceIdResult> task) {
+                                if (!task.isSuccessful()) {
+                                    Log.w(TAG, "getInstanceId failed", task.getException());
+                                    return;
+                                }
+
+                                // Get new Instance ID token
+                                String token = task.getResult().getToken();
+
+                                // Log and toast
+                                String msg = getString(R.string.msg_token_fmt, token);
+                                Log.d(TAG, msg);
+                                //Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
+                                App.getApi().setToken(App.iam.getId(), token).enqueue(new Callback<ResponseResult>() {
+                                    @Override
+                                    public void onResponse(Call<ResponseResult> call, Response<ResponseResult> response) {
+                                        Log.d("onResponse", "Передал!");
+                                        Toast.makeText(MainActivity.this, response.message(), Toast.LENGTH_LONG).show();
+                                    }
+
+                                    @Override
+                                    public void onFailure(Call<ResponseResult> call, Throwable t) {
+                                        Log.e("onFailure", t.getMessage());
+                                        Toast.makeText(MainActivity.this, t.getMessage(), Toast.LENGTH_LONG).show();
+                                    }
+                                });
+                            }
+                        });
+
+
             }
         });
     }
@@ -268,5 +315,7 @@ public class MainActivity extends AppCompatActivity {
                 .create()
                 .show();
     }
+
+
 
 }

@@ -36,4 +36,8 @@ public interface LocationApi {
         @POST("/updatedescribe.php")
         Call<List<UserClass>> updateDescribe(@Field("id_main") int idUser, @Field("id_depend") int idDepend,
                                          @Field("status") int status);
+
+        @FormUrlEncoded
+        @POST("/settoken.php")
+        Call<ResponseResult> setToken(@Field("id_user") int idUser, @Field("token") String token);
 }

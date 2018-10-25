@@ -17,10 +17,10 @@
         <item quantity="one">Hydrate while charging reminder sent %d time</item>
         <item quantity="other">Hydrate while charging reminder sent %d times</item>
     </plurals>
-
+    <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
     <string name="btn_map">К карте</string>
     <string name="btn_describe">Подписки</string>
-
+    <string name="msg_token_fmt" translatable="false">InstanceID Token: %s</string>
     <!-- Strings for Notifications and Toasts -->
     <string name="water_chug_toast">GLUG GLUG GLUG</string>
 
