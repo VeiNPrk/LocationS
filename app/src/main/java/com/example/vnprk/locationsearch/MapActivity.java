@@ -92,7 +92,7 @@ public class MapActivity extends AppCompatActivity implements LoaderManager.Load
         //locationTools = new LocationTools(this);
         //RelocationUtilities.scheduleChargingReminder(this);
         db = new DataBase();
-        getSupportLoaderManager().initLoader(LOADER_USERS, Bundle.EMPTY, this);
+
     }
 
     private void initViews() {
@@ -120,7 +120,7 @@ public class MapActivity extends AppCompatActivity implements LoaderManager.Load
         }*/
         switch (id) {
             case LOADER_USERS:
-                return new UserLoader(this);
+                return new UserLoader(this, args);
             case LOADER_LOCATION:
                 return new LocationLoader(this, args);
             default:
@@ -267,6 +267,7 @@ public class MapActivity extends AppCompatActivity implements LoaderManager.Load
         // Enable zoom controls
         mMap.getUiSettings().setZoomControlsEnabled(true);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(startLoc, 11F));
+        getSupportLoaderManager().initLoader(LOADER_USERS, Bundle.EMPTY, this);
     }
 
     private void setMarker(LocationClass location) {

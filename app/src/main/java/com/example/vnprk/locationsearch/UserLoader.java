@@ -20,16 +20,36 @@ import java.util.List;
 public class UserLoader extends AsyncTaskLoader<Cursor> {
 
     public final String TAG = getClass().getSimpleName();
+    private int codeOperation=1;
+    public static final int ALL_USERS = 1;
+    public static final int REQUEST_USERS = 2;
+    public static final String OPERATION_KEY = "operation_key";
 
-    public UserLoader(Context context) {
+    public UserLoader(Context context , Bundle args) {
         super(context);
+        if (args != null) {
+            codeOperation = args.getInt(OPERATION_KEY,1);
+        }
     }
 
     @Override
     public Cursor loadInBackground() {
         Log.d(TAG, "loadInBackground");
+        Cursor cursor = null;
         try {
-            return apiCall();
+
+            switch (codeOperation) {
+                case ALL_USERS:
+                    cursor = getAllUsers();
+                    break;
+                case REQUEST_USERS:
+                    cursor = getRequests();
+                    break;
+                default:
+                    cursor = null;
+                break;
+            }
+            return cursor;
         } catch (IOException e) {
             Log.d("loadInBackground", e.getMessage());
             return null;
@@ -63,7 +83,7 @@ public class UserLoader extends AsyncTaskLoader<Cursor> {
         super.deliverResult(data);
     }
 
-    protected Cursor apiCall() throws IOException {
+    protected Cursor getAllUsers() throws IOException {
         List<UserClass> users = new ArrayList<>();
         Cursor usersCursor = null;
         try {
@@ -71,7 +91,7 @@ public class UserLoader extends AsyncTaskLoader<Cursor> {
         }
         catch (Exception ex)
         {
-            Log.d("apiCall", ex.getMessage());
+            Log.d("getAllUsers", ex.getMessage());
         }
         if(users!=null && users.size()>0)
         {
@@ -83,6 +103,29 @@ public class UserLoader extends AsyncTaskLoader<Cursor> {
             }
         }
         usersCursor = new Select().from(UserClass.class).where(UserClass_Table.type.eq(0)).query();
+        return usersCursor;
+    }
+
+    private Cursor getRequests() throws IOException {
+        List<UserClass> users = new ArrayList<>();
+        Cursor usersCursor = null;
+        try {
+            users.addAll(App.getApi().getRequests(App.iam.getId()).execute().body());
+        }
+        catch (Exception ex)
+        {
+            Log.d("getRequest", ex.getMessage());
+        }
+        if(users!=null && users.size()>0)
+        {
+            SQLite.delete(UserClass.class)
+                    .where(UserClass_Table.type.eq(2))
+                    .execute();
+            for (UserClass user: users) {
+                user.save();
+            }
+        }
+        usersCursor = new Select().from(UserClass.class).where(UserClass_Table.type.eq(2)).query();
         return usersCursor;
     }
 }

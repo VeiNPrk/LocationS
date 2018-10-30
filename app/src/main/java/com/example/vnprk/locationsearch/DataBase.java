@@ -294,6 +294,19 @@ public class DataBase {
         return users;
     }
 
+    public static List<UserClass> getRequestUsers()
+    {
+        List<UserClass> users = null;
+        try{
+            users = new Select().from(UserClass.class).where(UserClass_Table.type.eq(2)).queryList();
+        }
+        catch (Exception ex)
+        {
+            Log.e("CATCH getAllUsers", ex.getMessage());
+        }
+        return users;
+    }
+
     public static List<UserClass> getAcceptedUsers()
     {
         List<UserClass> users = null;

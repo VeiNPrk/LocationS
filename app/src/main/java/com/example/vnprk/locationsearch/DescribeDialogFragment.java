@@ -2,7 +2,7 @@ package com.example.vnprk.locationsearch;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.app.DialogFragment;
+import android.support.v4.app.DialogFragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -23,6 +23,18 @@ public class DescribeDialogFragment extends DialogFragment {
     int type = 0;
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        try {
+            mListener = (DescribeDialogListener) getTargetFragment();
+        } catch (ClassCastException e) {
+            throw new ClassCastException("Calling Fragment must implement OnAddFriendListener");
+        }
+    }
+
+/*
+    @Override
     public void onAttach(Context context) {
         super.onAttach(context);
 
@@ -35,7 +47,7 @@ public class DescribeDialogFragment extends DialogFragment {
             // The activity doesn't implement the interface, throw exception
             throw new ClassCastException(a.toString() + " must implement MyDialogListener");
         }
-    }
+    }*/
 
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         LayoutInflater inflater = getActivity().getLayoutInflater();

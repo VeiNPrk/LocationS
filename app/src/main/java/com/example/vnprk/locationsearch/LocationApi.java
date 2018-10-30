@@ -20,6 +20,9 @@ public interface LocationApi {
         @GET("/getusers.php")
         Call<List<UserClass>> getUsers(@Query("id") int myId);
 
+        @GET("/getrequests.php")
+        Call<List<UserClass>> getRequests(@Query("id") int myId);
+
         @GET("/getlastlocation.php")
         Call<List<LocationClass>> getLocations(@Query("id") int idUser);
 
