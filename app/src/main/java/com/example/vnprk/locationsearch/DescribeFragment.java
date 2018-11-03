@@ -1,5 +1,6 @@
 package com.example.vnprk.locationsearch;
 
+import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.database.Cursor;
 import android.support.v4.app.Fragment;
@@ -22,12 +23,16 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.raizlabs.android.dbflow.sql.language.Select;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 
 /**
  * Created by VNPrk on 27.10.2018.
@@ -48,6 +53,7 @@ public class DescribeFragment extends Fragment implements ActionMode.Callback, a
     DescribeDialogFragment dialog;
     int nowPositionList = -1;
     int countChecked = 0;
+    ProgressBar progressBar;
     View view;
 
     @Override
@@ -63,6 +69,7 @@ public class DescribeFragment extends Fragment implements ActionMode.Callback, a
         elements = new ArrayList<String>();
         selectedPositions = new ArrayList<Integer>();
         initViews();
+        setRecyclerView();
         initData();
         return view;
 
@@ -74,6 +81,7 @@ public class DescribeFragment extends Fragment implements ActionMode.Callback, a
         dialog.setTargetFragment(this, 0);
         rvUsers = (RecyclerView)view.findViewById(R.id.rv_users);
         fabAddUser = (FloatingActionButton)view.findViewById(R.id.fab_add);
+        progressBar=(ProgressBar)view.findViewById(R.id.progressBar);
         fabAddUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -139,6 +147,10 @@ public class DescribeFragment extends Fragment implements ActionMode.Callback, a
         addElementView();
     }
 */
+    public void updateData(){
+        getLoaderManager().initLoader(MapActivity.LOADER_USERS, Bundle.EMPTY, this);
+    }
+
     private void myToggleSelection(int idx) {
         adapter.toggleSelection(idx);
         selectedPositions=adapter.getSelectedItems();
@@ -235,9 +247,21 @@ public class DescribeFragment extends Fragment implements ActionMode.Callback, a
 
     @Override
     public void onYesClicked(DialogFragment dialog, String dataDescribe) {
-        Toast.makeText(view.getContext(), dataDescribe, Toast.LENGTH_LONG).show();
+        //Toast.makeText(view.getContext(), dataDescribe, Toast.LENGTH_LONG).show();
         int idDescribe = Integer.valueOf(dataDescribe);
-        if(idDescribe>0) {
+        List<UserClass> userIsDone = new ArrayList<UserClass>();
+        userIsDone = DataBase.getUser(idDescribe);
+        if(userIsDone.size()>0)
+        {
+            Toast.makeText(getContext(), getContext().getString(R.string.describe_frg_dlg_user_done), Toast.LENGTH_LONG).show();
+            return;
+        }
+        if(idDescribe==App.iam.getId())
+        {
+            Toast.makeText(getContext(), getContext().getString(R.string.describe_frg_dlg_user_equal), Toast.LENGTH_LONG).show();
+            return;
+        }
+        if(idDescribe>0 ) {
             Bundle bundle = new Bundle();
             bundle.putInt(DescribeLoader.IDDEPEND_KEY, idDescribe);
             bundle.putInt(DescribeLoader.STATUS_KEY, 0);
@@ -253,6 +277,7 @@ public class DescribeFragment extends Fragment implements ActionMode.Callback, a
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        progressBar.setVisibility(View.VISIBLE);
         switch (id) {
             case MapActivity.LOADER_USERS:
                 return new UserLoader(view.getContext(), args);
@@ -269,8 +294,9 @@ public class DescribeFragment extends Fragment implements ActionMode.Callback, a
         if (id == MapActivity.LOADER_USERS) {
             if (data != null) {
                 users = DataBase.getAllUsers();
+                adapter.setData(users);
             }
-            setRecyclerView();
+
         }
         if (id == DescribeLoader.NEW_DESCRIBE) {
             if (data != null) {
@@ -279,6 +305,7 @@ public class DescribeFragment extends Fragment implements ActionMode.Callback, a
             }
 
         }
+        progressBar.setVisibility(View.GONE);
         getLoaderManager().destroyLoader(id);
     }
 

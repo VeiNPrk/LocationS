@@ -3,6 +3,7 @@ package com.example.vnprk.locationsearch;
 import android.content.Context;
 import android.location.Address;
 import android.location.Geocoder;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
@@ -120,7 +121,14 @@ public class DescribeRecyclerAdapter extends RecyclerView.Adapter<DescribeRecycl
     public void onBindViewHolder(DescribeViewHolder holder, int i) {
         final UserClass selectedNote = data.get(i);
         holder.tvDescribeName.setText(data.get(i).getStrName());
-        holder.tvDescribeStatus.setText("Статус: " + data.get(i).getStatus());
+        if(data.get(i).getStatus()==0) {
+            holder.tvDescribeStatus.setText(context.getString(R.string.rv_item_status_wait));
+            holder.tvDescribeStatus.setTextColor(ContextCompat.getColor(context, R.color.colorAccent));
+        }
+        else {
+            holder.tvDescribeStatus.setText(context.getString(R.string.rv_item_status_done));
+            holder.tvDescribeStatus.setTextColor(ContextCompat.getColor(context, R.color.colorPrimaryDark));
+        }
         holder.itemView.setActivated(selectedItems.get(i, false));
     }
 

@@ -18,9 +18,12 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.raizlabs.android.dbflow.sql.language.Select;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 
@@ -36,8 +39,10 @@ public class RequestFragment extends Fragment implements LoaderManager.LoaderCal
     DescribeRecyclerAdapter adapter;
     int nowPositionList = -1;
     int countChecked = 0;
+    public static final String REQUEST_LOAD_COMPLETE = "request_load_complete";
+    public static final int REQUEST_LOAD_COMPL_CODE = 3;
     DescribeDialogFragment dialog;
-
+    ProgressBar progressBar;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,13 +59,11 @@ public class RequestFragment extends Fragment implements LoaderManager.LoaderCal
 
     private void initViews(){
         rvRequest = (RecyclerView)view.findViewById(R.id.rv_request);
+        progressBar=(ProgressBar)view.findViewById(R.id.progressBar2);
     }
 
     private void initData(){
-        Bundle bundle = new Bundle();
-        bundle.putInt(UserLoader.OPERATION_KEY, UserLoader.REQUEST_USERS);
-        getLoaderManager().initLoader(MapActivity.LOADER_USERS, bundle, this);
-        //users = new Select().from(.class).queryList();
+        updateData();
     }
 
     private void setRecyclerView() {
@@ -86,6 +89,12 @@ public class RequestFragment extends Fragment implements LoaderManager.LoaderCal
             refreshData();
             //AppWidget.sendUpdateMessage(this);
         }
+    }
+
+    public void updateData(){
+        Bundle bundle = new Bundle();
+        bundle.putInt(UserLoader.OPERATION_KEY, UserLoader.REQUEST_USERS);
+        getLoaderManager().initLoader(MapActivity.LOADER_USERS, bundle, this);
     }
 
     private void addElementView(){
@@ -145,6 +154,7 @@ public class RequestFragment extends Fragment implements LoaderManager.LoaderCal
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        progressBar.setVisibility(View.VISIBLE);
         switch (id) {
             case MapActivity.LOADER_USERS:
                 return new UserLoader(view.getContext(), args);
@@ -164,8 +174,9 @@ public class RequestFragment extends Fragment implements LoaderManager.LoaderCal
             }
             setRecyclerView();
         }
-
+        progressBar.setVisibility(View.GONE);
         getLoaderManager().destroyLoader(id);
+        EventBus.getDefault().post(new MessageEvent(REQUEST_LOAD_COMPLETE, REQUEST_LOAD_COMPL_CODE, requestUsers.size()));
     }
 
     @Override

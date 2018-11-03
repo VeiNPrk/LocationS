@@ -3,7 +3,9 @@ import android.content.Intent;
 import android.util.Log;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
- 
+
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.Map;
  
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
@@ -62,7 +64,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         notificationVO.setActionDestination(actionDestination);
         notificationVO.setData(dataIntent);
         Intent resultIntent = new Intent(getApplicationContext(), MainActivity.class);
-
+        EventBus.getDefault().post(new MessageEvent(actionDestination,dataIntent));
         FirebaseNotificationUtils notificationUtils = new FirebaseNotificationUtils(getApplicationContext());
         notificationUtils.displayNotification(notificationVO, resultIntent);
         //notificationUtils.playNotificationSound();

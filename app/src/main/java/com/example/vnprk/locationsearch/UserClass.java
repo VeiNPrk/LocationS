@@ -14,6 +14,7 @@ public class UserClass extends BaseModel {
     @PrimaryKey
     @Column
     private int id;
+    @PrimaryKey
     @Column
     private int type; //0/1/2 - мои подписчики/Я/запрашивающие
     @Column

@@ -116,7 +116,7 @@ public class UserLoader extends AsyncTaskLoader<Cursor> {
         {
             Log.d("getRequest", ex.getMessage());
         }
-        if(users!=null && users.size()>0)
+        if(users!=null )
         {
             SQLite.delete(UserClass.class)
                     .where(UserClass_Table.type.eq(2))

@@ -26,6 +26,10 @@ import android.widget.Toast;
 
 import com.raizlabs.android.dbflow.sql.language.Select;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,7 +52,8 @@ public class DescribeActivity extends AppCompatActivity {
     int nowPositionTab = 0;
     int countChecked = 0;
     //int idDescribe = 0;
-
+    DescribeFragment describeFragment;
+    RequestFragment requestFragment;
     //private Toolbar toolbar;
     private TabLayout tabLayout;
     private ViewPager viewPager;
@@ -90,11 +95,58 @@ public class DescribeActivity extends AppCompatActivity {
     }
 
     private void setupViewPager(ViewPager viewPager) {
+        describeFragment = new DescribeFragment();
+        requestFragment = new RequestFragment();
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new DescribeFragment(), "Подписки");
-        adapter.addFragment(new RequestFragment(), "Запросы");
+        adapter.addFragment(describeFragment, getString(R.string.tab_layout_describe));
+        adapter.addFragment(requestFragment, getString(R.string.tab_layout_request));
         viewPager.setAdapter(adapter);
 
+    }
+
+    private void updateDescribe(){
+        describeFragment.updateData();
+    }
+
+    private void updateRequest(){
+        requestFragment.updateData();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    protected void onStop() {
+        EventBus.getDefault().unregister(this);
+        super.onStop();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(MessageEvent event) {
+        if(event!=null){
+            switch (event.typeDescribe)
+            {
+                case 0:
+                    //if(tabLayout.getSelectedTabPosition()==0) {
+                        updateDescribe();
+                        //Toast.makeText(this, event.message+"0", Toast.LENGTH_SHORT).show();
+                    //}
+                    break;
+                case 1:
+                    //if(tabLayout.getSelectedTabPosition()==1) {
+                        updateRequest();
+                        //Toast.makeText(this, event.message+"1", Toast.LENGTH_SHORT).show();
+                   //}
+                    break;
+                case RequestFragment.REQUEST_LOAD_COMPL_CODE:
+                    if(event.count>0)
+                        tabLayout.getTabAt(1).setText(getString(R.string.tab_layout_request)+"("+event.count+")");
+                    break;
+            }
+        }
     }
 
   /*  @Override
