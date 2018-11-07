@@ -41,6 +41,11 @@ public interface LocationApi {
                                          @Field("status") int status);
 
         @FormUrlEncoded
+        @POST("/deletedescribe.php")
+        Call<List<UserClass>> deleteDescribe(@Field("id_main") int idUser, @Field("id_depend") int idDepend,
+                                             @Field("type") int type);
+
+        @FormUrlEncoded
         @POST("/settoken.php")
         Call<ResponseResult> setToken(@Field("id_user") int idUser, @Field("token") String token);
 }

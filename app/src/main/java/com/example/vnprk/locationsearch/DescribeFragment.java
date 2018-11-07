@@ -227,11 +227,12 @@ public class DescribeFragment extends Fragment implements ActionMode.Callback, a
 
     private DescribeRecyclerAdapter.DescribeClickListener rvClickListener = new DescribeRecyclerAdapter.DescribeClickListener() {
         @Override
-        public void onNoteClick(View noteImage, int position){
+        public void onNoteClick(int position){
             if (actionMode != null) {
                 myToggleSelection(position);
                 return;
             }
+
             //elementView(users.get(position),noteImage);
         }
 

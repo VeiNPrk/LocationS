@@ -30,6 +30,10 @@
     <string name="dialog_text_edit">Введите ID пользователя</string>
     <string name="dialog_send_no">Отмена</string>
     <string name="dialog_send_yes">Отправить</string>
+
+    <string name="dialog_no">Отмена</string>
+    <string name="dialog_yes">Да</string>
+
     <string name="dialog_send_tittle">Запрос на слежение</string>
     <string name="tab_layout_describe">Подписки</string>
     <string name="tab_layout_request">Запросы</string>
@@ -39,5 +43,11 @@
 
     <string name="describe_frg_dlg_user_done">Вы уже отправляли запрос данному пользователю!</string>
     <string name="describe_frg_dlg_user_equal">Нельзя отправить запрос самому себе!</string>
+
+    <string name="request_frg_dlg_tittle">Запрос</string>
+    <string name="request_frg_dlg_message">Что сделать с данным запросом?</string>
+    <string name="request_frg_dlg_done">Разрешить</string>
+    <string name="request_frg_dlg_del">Отказать</string>
+    <string name="request_frg_dlg_wait">Подумать</string>
 
 </resources>

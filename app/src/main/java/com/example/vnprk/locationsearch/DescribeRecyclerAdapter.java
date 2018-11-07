@@ -102,7 +102,7 @@ public class DescribeRecyclerAdapter extends RecyclerView.Adapter<DescribeRecycl
             @Override
             public void onClick(View v){
                 int position = viewHolder.getAdapterPosition();
-                //noteClickListener.onNoteClick(ivIconNote, position);
+                describeClickListener.onNoteClick(position);
             }
         });
 
@@ -168,7 +168,7 @@ public class DescribeRecyclerAdapter extends RecyclerView.Adapter<DescribeRecycl
     }
 
     public interface DescribeClickListener {
-        void onNoteClick(View noteImage, int position);
+        void onNoteClick(int position);
         void onNoteLongClick(int position);
     }
 }

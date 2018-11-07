@@ -1,5 +1,7 @@
 package com.example.vnprk.locationsearch;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.support.v4.app.LoaderManager;
 import android.database.ContentObserver;
 import android.database.Cursor;
@@ -11,6 +13,7 @@ import android.support.v4.content.Loader;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -69,7 +72,7 @@ public class RequestFragment extends Fragment implements LoaderManager.LoaderCal
     private void setRecyclerView() {
         LinearLayoutManager layoutManager =
                 new LinearLayoutManager(view.getContext(), LinearLayoutManager.VERTICAL, false);
-        adapter = new DescribeRecyclerAdapter(view.getContext(), rvClickListener, requestUsers);
+        adapter = new DescribeRecyclerAdapter(view.getContext(), /*rvClickListener*/rvClickListener, requestUsers);
         rvRequest.setLayoutManager(layoutManager);
         rvRequest.setHasFixedSize(true);
         rvRequest.setAdapter(adapter);
@@ -125,12 +128,32 @@ public class RequestFragment extends Fragment implements LoaderManager.LoaderCal
 
     private DescribeRecyclerAdapter.DescribeClickListener rvClickListener = new DescribeRecyclerAdapter.DescribeClickListener() {
         @Override
-        public void onNoteClick(View noteImage, int position){
+        public void onNoteClick(final int position){
+            //Log.d("rvRequest", "YES");
+            AlertDialog.Builder adb = new AlertDialog.Builder(getContext());
+            adb.setTitle(getString(R.string.request_frg_dlg_tittle))
+                    .setPositiveButton(R.string.request_frg_dlg_done,new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            Toast.makeText(getContext(), "Удалить"+requestUsers.get(position).getId(), Toast.LENGTH_LONG).show();
+                        }
+                    })
+                    .setNegativeButton(getString(R.string.request_frg_dlg_del), new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
 
+                        }
+                    })
+                    .setNeutralButton(getString(R.string.request_frg_dlg_wait), new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+
+                        }
+                    })
+                    .setMessage(getString(R.string.request_frg_dlg_message));
+            adb.create().show();
         }
 
         @Override
         public void onNoteLongClick(int position){
+            Log.d("rvRequest", "YES2");
         }
     };
 /*

@@ -26,6 +26,10 @@ public class DescribeLoader extends AsyncTaskLoader<Cursor> {
     private int codeOperation;
     public static final int NEW_DESCRIBE = 1;
     public static final int UPDATE_DESCRIBE = 2;
+    public static final int DELETE_DESCRIBE = 3;
+    public static final int UPDATE_REQUEST = 4;
+    public static final int DELETE_REQUEST = 5;
+
     public static final String IDDEPEND_KEY="id_depend";
     public static final String STATUS_KEY="status";
     public static final String OPERATION_KEY="operation";
@@ -132,6 +136,75 @@ public class DescribeLoader extends AsyncTaskLoader<Cursor> {
             }
         }
         usersCursor = new Select().from(UserClass.class).where(UserClass_Table.type.eq(0)).query();
+        return usersCursor;
+    }
+
+    protected Cursor updateRequestCall(int idReq, int status) throws IOException {
+        List<UserClass> users = new ArrayList<>();
+        Cursor usersCursor = null;
+        try {
+            users.addAll(App.getApi().updateDescribe(idReq ,App.iam.getId(), status).execute().body());
+        }
+        catch (Exception ex)
+        {
+            Log.e("updateRequestCall", ex.getMessage());
+        }
+        if(users!=null && users.size()>0)
+        {
+            SQLite.delete(UserClass.class)
+                    .where(UserClass_Table.type.eq(2))
+                    .execute();
+            for (UserClass user: users) {
+                user.save();
+            }
+        }
+        usersCursor = new Select().from(UserClass.class).where(UserClass_Table.type.eq(2)).query();
+        return usersCursor;
+    }
+
+    protected Cursor deleteDescribeCall(int idDepend) throws IOException {
+        List<UserClass> users = new ArrayList<>();
+        Cursor usersCursor = null;
+        try {
+            users.addAll(App.getApi().updateDescribe(App.iam.getId(), idDepend, status).execute().body());
+        }
+        catch (Exception ex)
+        {
+            Log.e("deleteDescribeCall", ex.getMessage());
+        }
+        if(users!=null && users.size()>0)
+        {
+            SQLite.delete(UserClass.class)
+                    .where(UserClass_Table.type.eq(0))
+                    .execute();
+            for (UserClass user: users) {
+                user.save();
+            }
+        }
+        usersCursor = new Select().from(UserClass.class).where(UserClass_Table.type.eq(0)).query();
+        return usersCursor;
+    }
+
+    protected Cursor deleteRequestCall(int idReq) throws IOException {
+        List<UserClass> users = new ArrayList<>();
+        Cursor usersCursor = null;
+        try {
+            users.addAll(App.getApi().updateDescribe(App.iam.getId(), idDepend, status).execute().body());
+        }
+        catch (Exception ex)
+        {
+            Log.e("deleteRequestCall", ex.getMessage());
+        }
+        if(users!=null && users.size()>0)
+        {
+            SQLite.delete(UserClass.class)
+                    .where(UserClass_Table.type.eq(2))
+                    .execute();
+            for (UserClass user: users) {
+                user.save();
+            }
+        }
+        usersCursor = new Select().from(UserClass.class).where(UserClass_Table.type.eq(2)).query();
         return usersCursor;
     }
 }
