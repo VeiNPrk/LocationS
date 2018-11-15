@@ -126,6 +126,21 @@ public class RequestFragment extends Fragment implements LoaderManager.LoaderCal
         }
     };
 
+    private void deleteRequest(int idReq) {
+        Bundle bundle = new Bundle();
+        bundle.putInt(DescribeLoader.OPERATION_KEY, DescribeLoader.DELETE_REQUEST);
+        bundle.putInt(DescribeLoader.IDDEPEND_KEY, idReq);
+        getLoaderManager().initLoader(DescribeLoader.DESCRIBE_LOADER, bundle, this);
+    }
+
+    private void succesRequest(int idReq) {
+        Bundle bundle = new Bundle();
+        bundle.putInt(DescribeLoader.OPERATION_KEY, DescribeLoader.UPDATE_REQUEST);
+        bundle.putInt(DescribeLoader.IDDEPEND_KEY, idReq);
+        bundle.putInt(DescribeLoader.STATUS_KEY, 1);
+        getLoaderManager().initLoader(DescribeLoader.DESCRIBE_LOADER, bundle, this);
+    }
+
     private DescribeRecyclerAdapter.DescribeClickListener rvClickListener = new DescribeRecyclerAdapter.DescribeClickListener() {
         @Override
         public void onNoteClick(final int position){
@@ -134,12 +149,14 @@ public class RequestFragment extends Fragment implements LoaderManager.LoaderCal
             adb.setTitle(getString(R.string.request_frg_dlg_tittle))
                     .setPositiveButton(R.string.request_frg_dlg_done,new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
-                            Toast.makeText(getContext(), "Удалить"+requestUsers.get(position).getId(), Toast.LENGTH_LONG).show();
+                            succesRequest(requestUsers.get(position).getId());
+                            //Toast.makeText(getContext(),"id="+id+" position="+position, Toast.LENGTH_LONG).show();
                         }
                     })
                     .setNegativeButton(getString(R.string.request_frg_dlg_del), new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
-
+                            deleteRequest(requestUsers.get(position).getId());
+                            //deleteRequest(id);
                         }
                     })
                     .setNeutralButton(getString(R.string.request_frg_dlg_wait), new DialogInterface.OnClickListener() {
@@ -181,6 +198,8 @@ public class RequestFragment extends Fragment implements LoaderManager.LoaderCal
         switch (id) {
             case MapActivity.LOADER_USERS:
                 return new UserLoader(view.getContext(), args);
+            case DescribeLoader.DESCRIBE_LOADER:
+                return new DescribeLoader(view.getContext(), args);
             /*case DescribeLoader.NEW_DESCRIBE:
                 return new DescribeLoader(view.getContext(), args);*/
             default:
@@ -191,12 +210,13 @@ public class RequestFragment extends Fragment implements LoaderManager.LoaderCal
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         int id = loader.getId();
-        if (id == MapActivity.LOADER_USERS) {
+        if (id == MapActivity.LOADER_USERS || id == DescribeLoader.DESCRIBE_LOADER) {
             if (data != null) {
                 requestUsers = DataBase.getRequestUsers();
             }
             setRecyclerView();
         }
+
         progressBar.setVisibility(View.GONE);
         getLoaderManager().destroyLoader(id);
         EventBus.getDefault().post(new MessageEvent(REQUEST_LOAD_COMPLETE, REQUEST_LOAD_COMPL_CODE, requestUsers.size()));

@@ -38,7 +38,7 @@ public interface LocationApi {
         @FormUrlEncoded
         @POST("/updatedescribe.php")
         Call<List<UserClass>> updateDescribe(@Field("id_main") int idUser, @Field("id_depend") int idDepend,
-                                         @Field("status") int status);
+                                         @Field("status") int status, @Field("type") int type);
 
         @FormUrlEncoded
         @POST("/deletedescribe.php")

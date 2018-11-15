@@ -29,7 +29,7 @@ public class DescribeLoader extends AsyncTaskLoader<Cursor> {
     public static final int DELETE_DESCRIBE = 3;
     public static final int UPDATE_REQUEST = 4;
     public static final int DELETE_REQUEST = 5;
-
+    public static final int DESCRIBE_LOADER = 346;
     public static final String IDDEPEND_KEY="id_depend";
     public static final String STATUS_KEY="status";
     public static final String OPERATION_KEY="operation";
@@ -38,7 +38,7 @@ public class DescribeLoader extends AsyncTaskLoader<Cursor> {
         super(context);
         if (args != null) {
             idDepend = args.getInt(IDDEPEND_KEY);
-            status = args.getInt(STATUS_KEY);
+            status = args.getInt(STATUS_KEY,0);
             codeOperation = args.getInt(OPERATION_KEY);
         }
     }
@@ -54,6 +54,15 @@ public class DescribeLoader extends AsyncTaskLoader<Cursor> {
                     break;
                 case UPDATE_DESCRIBE:
                     cursor= updateDescribeCall(idDepend, status);
+                    break;
+                case UPDATE_REQUEST:
+                    cursor= updateRequestCall(idDepend, status);
+                    break;
+                case DELETE_DESCRIBE:
+                    cursor=deleteDescribeCall(idDepend);
+                    break;
+                case DELETE_REQUEST:
+                    cursor=deleteRequestCall(idDepend);
                     break;
                 default:
                     cursor= null;
@@ -120,7 +129,7 @@ public class DescribeLoader extends AsyncTaskLoader<Cursor> {
         List<UserClass> users = new ArrayList<>();
         Cursor usersCursor = null;
         try {
-            users.addAll(App.getApi().updateDescribe(App.iam.getId(), idDepend, status).execute().body());
+            users.addAll(App.getApi().updateDescribe(App.iam.getId(), idDepend, status,1).execute().body());
         }
         catch (Exception ex)
         {
@@ -143,7 +152,7 @@ public class DescribeLoader extends AsyncTaskLoader<Cursor> {
         List<UserClass> users = new ArrayList<>();
         Cursor usersCursor = null;
         try {
-            users.addAll(App.getApi().updateDescribe(idReq ,App.iam.getId(), status).execute().body());
+            users.addAll(App.getApi().updateDescribe(idReq ,App.iam.getId(), status,2).execute().body());
         }
         catch (Exception ex)
         {
@@ -166,7 +175,7 @@ public class DescribeLoader extends AsyncTaskLoader<Cursor> {
         List<UserClass> users = new ArrayList<>();
         Cursor usersCursor = null;
         try {
-            users.addAll(App.getApi().updateDescribe(App.iam.getId(), idDepend, status).execute().body());
+            users.addAll(App.getApi().deleteDescribe(App.iam.getId(), idDepend, 1).execute().body());
         }
         catch (Exception ex)
         {
@@ -189,7 +198,7 @@ public class DescribeLoader extends AsyncTaskLoader<Cursor> {
         List<UserClass> users = new ArrayList<>();
         Cursor usersCursor = null;
         try {
-            users.addAll(App.getApi().updateDescribe(App.iam.getId(), idDepend, status).execute().body());
+            users.addAll(App.getApi().deleteDescribe(idReq, App.iam.getId(), 2).execute().body());
         }
         catch (Exception ex)
         {
