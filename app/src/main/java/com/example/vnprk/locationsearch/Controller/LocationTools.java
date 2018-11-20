@@ -1,4 +1,4 @@
-package com.example.vnprk.locationsearch;
+package com.example.vnprk.locationsearch.Controller;
 
 import android.Manifest;
 import android.annotation.SuppressLint;

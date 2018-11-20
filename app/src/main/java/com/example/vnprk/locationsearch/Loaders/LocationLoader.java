@@ -1,24 +1,18 @@
-package com.example.vnprk.locationsearch;
+package com.example.vnprk.locationsearch.Loaders;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.database.SQLException;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.StrictMode;
 import android.support.v4.content.AsyncTaskLoader;
 import android.util.Log;
-import android.widget.Toast;
 
-import com.raizlabs.android.dbflow.sql.language.Delete;
+import com.example.vnprk.locationsearch.App;
+import com.example.vnprk.locationsearch.Model.LocationClass_Table;
+import com.example.vnprk.locationsearch.Model.LocationClass;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 import com.raizlabs.android.dbflow.sql.language.Select;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 

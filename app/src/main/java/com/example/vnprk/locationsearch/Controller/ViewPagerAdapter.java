@@ -1,4 +1,4 @@
-package com.example.vnprk.locationsearch;
+package com.example.vnprk.locationsearch.Controller;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

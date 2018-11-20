@@ -1,9 +1,11 @@
-package com.example.vnprk.locationsearch;
+package com.example.vnprk.locationsearch.Controller;
 
 import android.content.Context;
 import android.location.Location;
 
-import com.firebase.jobdispatcher.Constraint;
+import com.example.vnprk.locationsearch.Controller.DataBase;
+import com.example.vnprk.locationsearch.Controller.LocationTools;
+import com.example.vnprk.locationsearch.Model.LocationClass;
 
 import java.util.List;
 

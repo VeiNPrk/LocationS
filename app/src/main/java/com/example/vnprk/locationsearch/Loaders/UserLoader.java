@@ -1,4 +1,4 @@
-package com.example.vnprk.locationsearch;
+package com.example.vnprk.locationsearch.Loaders;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -6,6 +6,9 @@ import android.os.Bundle;
 import android.support.v4.content.AsyncTaskLoader;
 import android.util.Log;
 
+import com.example.vnprk.locationsearch.App;
+import com.example.vnprk.locationsearch.Model.UserClass;
+import com.example.vnprk.locationsearch.Model.UserClass_Table;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 import com.raizlabs.android.dbflow.sql.language.Select;
 

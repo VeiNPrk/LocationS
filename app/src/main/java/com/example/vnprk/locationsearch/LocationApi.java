@@ -1,5 +1,9 @@
 package com.example.vnprk.locationsearch;
 
+import com.example.vnprk.locationsearch.Model.LocationClass;
+import com.example.vnprk.locationsearch.Model.ResponseResult;
+import com.example.vnprk.locationsearch.Model.UserClass;
+
 import java.util.List;
 
 import retrofit2.Call;

@@ -1,4 +1,4 @@
-package com.example.vnprk.locationsearch;
+package com.example.vnprk.locationsearch.Model;
 
 public class NotificationVO {
     private String title;

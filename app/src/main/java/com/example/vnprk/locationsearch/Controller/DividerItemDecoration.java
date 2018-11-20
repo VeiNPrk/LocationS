@@ -1,4 +1,4 @@
-package com.example.vnprk.locationsearch;
+package com.example.vnprk.locationsearch.Controller;
 
 import android.content.Context;
 import android.content.res.TypedArray;

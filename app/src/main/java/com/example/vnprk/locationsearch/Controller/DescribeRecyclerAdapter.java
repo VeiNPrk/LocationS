@@ -1,4 +1,4 @@
-package com.example.vnprk.locationsearch;
+package com.example.vnprk.locationsearch.Controller;
 
 import android.content.Context;
 import android.location.Address;
@@ -10,6 +10,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.example.vnprk.locationsearch.Model.UserClass;
+import com.example.vnprk.locationsearch.R;
 
 import java.io.IOException;
 import java.util.ArrayList;

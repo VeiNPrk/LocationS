@@ -1,8 +1,9 @@
-package com.example.vnprk.locationsearch;
+package com.example.vnprk.locationsearch.Services;
 
 import android.content.Context;
 import android.os.AsyncTask;
 
+import com.example.vnprk.locationsearch.Controller.RelocationTasks;
 import com.firebase.jobdispatcher.JobParameters;
 import com.firebase.jobdispatcher.JobService;
 

@@ -1,5 +1,6 @@
-package com.example.vnprk.locationsearch;
+package com.example.vnprk.locationsearch.Model;
 
+import com.example.vnprk.locationsearch.AppDataBase;
 import com.raizlabs.android.dbflow.annotation.Column;
 import com.raizlabs.android.dbflow.annotation.PrimaryKey;
 import com.raizlabs.android.dbflow.annotation.Table;

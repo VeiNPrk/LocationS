@@ -1,36 +1,26 @@
-package com.example.vnprk.locationsearch;
+package com.example.vnprk.locationsearch.View;
 
-import android.app.DialogFragment;
 import android.content.Context;
 import android.content.Intent;
-import android.database.ContentObserver;
-import android.database.Cursor;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.Loader;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.ActionMode;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Toast;
 
-import com.raizlabs.android.dbflow.sql.language.Select;
+import com.example.vnprk.locationsearch.Controller.DescribeRecyclerAdapter;
+import com.example.vnprk.locationsearch.Model.MessageEvent;
+import com.example.vnprk.locationsearch.R;
+import com.example.vnprk.locationsearch.Model.UserClass;
+import com.example.vnprk.locationsearch.Controller.ViewPagerAdapter;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

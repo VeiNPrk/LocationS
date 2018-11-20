@@ -1,4 +1,4 @@
-package com.example.vnprk.locationsearch;
+package com.example.vnprk.locationsearch.Model;
 
 /**
  * Created by VNPrk on 16.10.2018.

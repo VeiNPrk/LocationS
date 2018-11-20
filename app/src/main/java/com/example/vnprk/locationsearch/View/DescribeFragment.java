@@ -1,17 +1,14 @@
-package com.example.vnprk.locationsearch;
+package com.example.vnprk.locationsearch.View;
 
-import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.database.Cursor;
 import android.support.v4.app.Fragment;
-import android.content.Intent;
 
 import android.database.ContentObserver;
 //import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -26,13 +23,19 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.example.vnprk.locationsearch.App;
+import com.example.vnprk.locationsearch.Controller.DataBase;
+import com.example.vnprk.locationsearch.Loaders.DescribeLoader;
+import com.example.vnprk.locationsearch.Controller.DescribeRecyclerAdapter;
+import com.example.vnprk.locationsearch.Controller.DividerItemDecoration;
+import com.example.vnprk.locationsearch.R;
+import com.example.vnprk.locationsearch.Model.UserClass;
+import com.example.vnprk.locationsearch.Model.UserClass_Table;
+import com.example.vnprk.locationsearch.Loaders.UserLoader;
 import com.raizlabs.android.dbflow.sql.language.Select;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 
 /**
  * Created by VNPrk on 27.10.2018.

@@ -1,4 +1,4 @@
-package com.example.vnprk.locationsearch;
+package com.example.vnprk.locationsearch.View;
 
 import android.Manifest;
 import android.content.Context;
@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.location.Location;
-import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
@@ -23,6 +22,15 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.vnprk.locationsearch.App;
+import com.example.vnprk.locationsearch.Controller.DataBase;
+import com.example.vnprk.locationsearch.Model.LocationClass;
+import com.example.vnprk.locationsearch.Loaders.LocationLoader;
+//import com.example.vnprk.locationsearch.Controller.LocationTools;
+import com.example.vnprk.locationsearch.R;
+import com.example.vnprk.locationsearch.Model.ResponseResult;
+import com.example.vnprk.locationsearch.Model.UserClass;
+import com.example.vnprk.locationsearch.Loaders.UserLoader;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -36,8 +44,6 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-import static com.raizlabs.android.dbflow.config.FlowManager.getContext;
 
 /**
  * Created by VNPrk on 20.09.2018.
@@ -67,7 +73,7 @@ public class MapActivity extends AppCompatActivity implements LoaderManager.Load
     private LocationManager mLocManager = null;
     Location nowLocation = null;
     private Loader<ArrayList<LocationClass>> mLoader;
-    private LocationTools locationTools;
+    //private LocationTools locationTools;
     private DataBase db;
     private List<UserClass> users;
 
@@ -204,11 +210,11 @@ public class MapActivity extends AppCompatActivity implements LoaderManager.Load
     }*/
 
     public void testClick(View view) {
-        nowLocation = locationTools.getNowLocation(getApplicationContext());
+        /*nowLocation = locationTools.getNowLocation(getApplicationContext());
         if(nowLocation!=null) {
             int id = 1;
             setLocationData(id, nowLocation);
-        }
+        }*/
     }
 /*
     private final LocationListener mLocListener = new LocationListener() {
@@ -236,13 +242,13 @@ public class MapActivity extends AppCompatActivity implements LoaderManager.Load
         btnLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                nowLocation = locationTools.getNowLocation(getApplicationContext());
+               /* nowLocation = locationTools.getNowLocation(getApplicationContext());
                 if(nowLocation!=null) {
                     tvGpsLocation.setText(nowLocation.getLatitude() + " - " + nowLocation.getLongitude() + " Изменено");
                     LocationClass myLocation = new LocationClass(nowLocation);
                     mMap.clear();
                     setMarker(myLocation);
-                }
+                }*/
             }
         });
     }

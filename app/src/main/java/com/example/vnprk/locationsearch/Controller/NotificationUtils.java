@@ -1,4 +1,4 @@
-package com.example.vnprk.locationsearch;
+package com.example.vnprk.locationsearch.Controller;
 
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -12,6 +12,10 @@ import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
+
+import com.example.vnprk.locationsearch.R;
+import com.example.vnprk.locationsearch.Services.RelocationIntentService;
+import com.example.vnprk.locationsearch.View.MainActivity;
 
 /**
  * Created by VNPrk on 18.02.2018.

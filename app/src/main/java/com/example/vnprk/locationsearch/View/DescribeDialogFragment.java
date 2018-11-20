@@ -1,9 +1,7 @@
-package com.example.vnprk.locationsearch;
+package com.example.vnprk.locationsearch.View;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.support.v4.app.DialogFragment;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -11,6 +9,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+
+import com.example.vnprk.locationsearch.R;
 
 /**
  * Created by VNPrk on 22.10.2018.

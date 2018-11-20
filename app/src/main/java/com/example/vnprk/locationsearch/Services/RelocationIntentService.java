@@ -1,7 +1,9 @@
-package com.example.vnprk.locationsearch;
+package com.example.vnprk.locationsearch.Services;
 
 import android.app.IntentService;
 import android.content.Intent;
+
+import com.example.vnprk.locationsearch.Controller.RelocationTasks;
 
 /**
  * Created by VNPrk on 18.02.2018.
