@@ -1,5 +1,7 @@
 package com.example.vnprk.locationsearch.View;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.support.v4.app.DialogFragment;
 import android.database.Cursor;
 import android.support.v4.app.Fragment;
@@ -130,7 +132,20 @@ public class DescribeFragment extends Fragment implements ActionMode.Callback, a
     public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
         switch (menuItem.getItemId()) {
             case R.id.menu_delete:
-                deleteElement(selectedPositions);
+                AlertDialog.Builder adb = new AlertDialog.Builder(getContext());
+                adb.setTitle(getString(R.string.describe_frg_dlg_del_t))
+                        .setPositiveButton(R.string.dialog_yes,new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                deleteElement(selectedPositions);
+                            }
+                        })
+                        .setNegativeButton(getString(R.string.dialog_no), new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                            }
+                        })
+                        .setMessage(getString(R.string.describe_frg_dlg_del_m));
+                adb.create().show();
+
                 actionMode.finish();
                 return true;
             default:
@@ -171,10 +186,15 @@ public class DescribeFragment extends Fragment implements ActionMode.Callback, a
         if(positions.size()>0)
         {
             for(int i:positions) {
-                users.get(i).delete();
-                adapter.notifyItemRemoved(i);
+                Bundle bundle = new Bundle();
+                bundle.putInt(DescribeLoader.OPERATION_KEY, DescribeLoader.DELETE_DESCRIBE);
+                bundle.putInt(DescribeLoader.IDDEPEND_KEY, users.get(i).getId());
+                getLoaderManager().initLoader(DescribeLoader.DESCRIBE_LOADER, bundle, this);
+
+                /*users.get(i).delete();
+                adapter.notifyItemRemoved(i);*/
             }
-            refreshData();
+            //refreshData();
             //AppWidget.sendUpdateMessage(this);
         }
     }
@@ -287,6 +307,8 @@ public class DescribeFragment extends Fragment implements ActionMode.Callback, a
                 return new UserLoader(view.getContext(), args);
             case DescribeLoader.NEW_DESCRIBE:
                 return new DescribeLoader(view.getContext(), args);
+            case DescribeLoader.DESCRIBE_LOADER:
+                return new DescribeLoader(view.getContext(), args);
             default:
                 return null;
         }
@@ -303,6 +325,13 @@ public class DescribeFragment extends Fragment implements ActionMode.Callback, a
 
         }
         if (id == DescribeLoader.NEW_DESCRIBE) {
+            if (data != null) {
+                users = DataBase.getAllUsers();
+                adapter.setData(users);
+            }
+
+        }
+        if (id == DescribeLoader.DESCRIBE_LOADER) {
             if (data != null) {
                 users = DataBase.getAllUsers();
                 adapter.setData(users);

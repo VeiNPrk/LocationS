@@ -54,12 +54,14 @@ public class DescribeRecyclerAdapter extends RecyclerView.Adapter<DescribeRecycl
     }
 
     public void toggleSelection(int pos) {
-        if (selectedItems.get(pos, false)) {
+        /*if (selectedItems.get(pos, false)) {
             selectedItems.delete(pos);
         }
         else {
             selectedItems.put(pos, true);
-        }
+        }*/
+        clearSelections();
+        selectedItems.put(pos, true);
         notifyItemChanged(pos);
     }
 
